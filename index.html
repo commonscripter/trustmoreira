@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TrustMoreira</title>
+<title>Brainrot Script Generator</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -201,6 +201,18 @@
 
   .btn-sm.red:hover { background: rgba(244,63,94,.12); }
 
+  .btn-sm.gold {
+    color: #fbbf24;
+    border-color: rgba(251,191,36,.3);
+    background: rgba(251,191,36,.06);
+  }
+
+  .btn-sm.gold:hover { background: rgba(251,191,36,.14); }
+
+  .preset-row {
+    margin-bottom: .75rem;
+  }
+
   /* scrollable list */
   .animal-list {
     background: var(--bg);
@@ -357,7 +369,7 @@
 <div class="wrap">
 
   <header>
-    <div class="logo-row"><h1>TrustMoreira</h1></div>
+    <div class="logo-row"><h1>Brainrot Script Gen</h1></div>
     <p class="tagline">Roblox • Brainrot Animals • Script Generator</p>
   </header>
 
@@ -365,6 +377,9 @@
   <div class="panel">
     <div class="ph"><div class="dot dot-cyan"></div><span class="ph-title">Select Brainrot Animals</span></div>
     <div class="pb">
+      <div class="preset-row">
+        <button class="btn-sm gold" style="width:100%;padding:.55rem 1rem;font-size:.75rem;" onclick="applyPreset()">⭐ Owner's Recommended Config</button>
+      </div>
       <div class="search-row">
         <input class="search-input" id="searchBox" type="text" placeholder="Search animals..." oninput="filterList()">
         <button class="btn-sm" onclick="selectAll()">All</button>
@@ -416,6 +431,8 @@
 <script>
 const ANIMALS = ["1x1x1x1","25","67","Admin Lucky Block","Agarrini la Palini","Alessio","Anpali Babel","Antonio","Aquanaut","Arcadopus","Astrolero Cervalero","Avocadini Antilopini","Avocadini Guffo","Avocadorilla","Bacuru and Egguru","Ballerina Cappuccina","Ballerina Peppermintina","Ballerino Lololo","Bambini Crostini","Bambu Bambu Sahur","Bananita Dolphinita","Bananito Bandito","Bandito Axolito","Bandito Bobritto","Belula Beluga","Berenjello Angello","Bisonte Giuppitere","Blackhole Goat","Blueberrinni Octopusini","Boatito Auratito","Boba Panda","Bombardini Tortinii","Bombardiro Crocodilo","Bombombini Gusini","Boneca Ambalabu","Brainrot God Lucky Block","Brasilini Berimbini","Brr Brr Patapim","Brr es Teh Patipum","Brri Brri Bicus Dicus Bombicus","Brunito Marsito","Brutto Gialutto","Buho de Fuego","Buho de Noelo","Buho del Cielo","Bulbito Bandito Traktorito","Bunito Bunito Spinito","Bunnyman","Burbaloni Loliloli","Burguro And Fryuro","Burrito Bandito","Cacasito Satalito","Cachorrito Melonito","Cacto Hipopotamo","Capi Taco","Capitano Moby","Cappuccino Assassino","Cappuccino Clownino","Caramello Filtrello","Carloo","Carrotini Brainini","Cavallo Virtuoso","Celestial Pegasus","Celularcini Viciosini","Centrucci Nuclucci","Cerberus","Chachechi","Chef Crabracadabra","Chicleteira Bicicleteira","Chicleteira Cupideira","Chicleteira Noelteira","Chicleteirina Bicicleteirina","Chihuanini Taconini","Chill Puppy","Chillin Chili","Chimnino","Chimpanzini Bananini","Chipso and Queso","Chocco Bunny","Chrismasmamat","Cigno Fulgoro","Clickerino Crabo","Cocoa Assassino","Cocofanto Elefanto","Cocosini Mama","Coffin Tung Tung Tung Sahur","Cooki and Milki","Corn Corn Corn Sahur","Crabbo Limonetta","Cuadramat and Pakrahmatmamat","Cupcake Koala","Cupid Cupid Sahur","Cupid Hotspot","DJ Panda","Divino Platypio","Doi Doi Do","Dolphini Jetskini","Donkeyturbo Express","Dragon Cannelloni","Dragon Gingerini","Dug dug dug","Dul Dul Dul","Dumborino Miracello","Elefanto Frigo","Esok Sekolah","Espresso Signora","Eviledon","Extinct Ballerina","Extinct Matteo","Extinct Tralalero","Festive 67","Festive Lucky Block","Fishboard","Fishino Clownino","Fizzy Soda","Fluriflura","Fragola La La La","Fragrama and Chocrama","Frankentteo","Frigo Camelo","Frio Ninja","Frogato Pirato","Frogo Elfo","GOAT","Ganganzelli Trulala","Gangster Footera","Garama and Madundung","Gato Celesto","Gattatino Nyanino","Gattito Tacoto","Giftini Spyderini","Ginger Cisterna","Ginger Gerat","Ginger Globo","Girafa Celestre","Glorbo Fruttodrillo","Gobblino Uniciclino","Gold Elf","Gorillo Subwoofero","Gorillo Watermelondrillo","Graipuss Medussi","Granchiello Spiritell","Griffin","Guerriro Digitale","Guest 666","Harpuccino","Headless Horseman","Heart Lucky Block","Ho Ho Ho Sahur","Holy Arepa","Horegini Boom","Hydra Dragon Cannelloni","Jacko Jack Jack","Jacko Spaventosa","Jackorilla","Jingle Jingle Sahur","Job Job Job Sahur","Jolly Jolly Sahur","Karker Sahur","Karkerheart Luvkur","Karkerkar Kurkur","Ketchuru and Musturu","Ketupat Bros","Ketupat Kepat","Krupuk Pagi Pagi","La Casa Boo","La Cucaracha","La Extinct Grande","La Food Combinasion","La Ginger Sekolah","La Grande Combinasion","La Jolly Grande","La Karkerkar Combinasion","La Romantic Grande","La Sahur Combinasion","La Secret Combinasion","La Spooky Grande","La Supreme Combinasion","La Taco Combinasion","La Vacca Jacko Linterino","La Vacca Prese Presente","La Vacca Saturno Saturnita","Las Capuchinas","Las Sis","Las Tralaleritas","Las Vaquitas Saturnitas","Lavadorito Spinito","Lerulerulerule","Lionel Cactuseli","Lirilì Larilà","List List List Sahur","Los 25","Los 67","Los Amigos","Los Bombinitos","Los Bros","Los Burritos","Los Candies","Los Chicleteiras","Los Chihuaninis","Los Combinasionas","Los Crocodillitos","Los Cucarachas","Los Cupids","Los Gattitos","Los Hotspotsitos","Los Jobcitos","Los Jolly Combinasionas","Los Karkeritos","Los Lucky Blocks","Los Matteos","Los Mi Gatitos","Los Mobilis","Los Noobinis","Los Nooo My Hotspotsitos","Los Orcalitos","Los Planitos","Los Primos","Los Puggies","Los Quesadillas","Los Sekolahs","Los Spaghettis","Los Spooky Combinasionas","Los Spyderinis","Los Sweethearts","Los Taco Blocks","Los Tacoritas","Los Tipi Tacos","Los Tortus","Los Tralaleritos","Los Trios","Los Tungtungtungcitos","Love Love Bear","Love Love Love Sahur","Lovin Rose","Luv Luv Luv","Magi Ribbitini","Malame Amarele","Mangolini Parrocini","Mariachi Corazoni","Mastodontico Telepiedone","Matteo","Meowl","Mi Gatito","Mieteteira Bicicleteira","Money Money Man","Money Money Puggy","Money Money Reindeer","Mummio Rappitto","Mummy Ambalabu","Mythic Lucky Block","Nacho Spyder","Naughty Naughty","Noo La Polizia","Noo my Candy","Noo my Heart","Noo my Present","Noo my examine","Noobini Pizzanini","Noobini Santanini","Nooo My Hotspot","Nuclearo Dinossauro","Odin Din Din Dun","Orangutini Ananassini","Orcaledon","Orcalero Orcala","Orcalita Orcala","Pakrahmatmamat","Pakrahmatmatina","Pandaccini Bananini","Pandanini Frostini","Paradiso Axolottino","Pengolino Nuvoletto","Penguin Tree","Penguino Cocosino","Perochello Lemonchello","Perrito Burrito","Pi Pi Watermelon","Piccione Macchina","Piccionetta Macchina","Pinealotto Fruttarino","Pipi Avocado","Pipi Corni","Pipi Kiwi","Pipi Potato","Pirulitoita Bicicleteira","Please my Present","Pop Pop Sahur","Popcuru and Fizzuru","Pot Hotspot","Pot Pumpkin","Premium Festive Lucky Block","Premium Heart Lucky Block","Puffaball","Pumpkini Spyderini","Quackula","Quesadilla Crocodila","Quesadillo Vampiro","Quivioli Ameleonni","Raccooni Jandelini","Rang Ring Bus","Reindeer Tralala","Reinito Sleighito","Rhino Helicopterino","Rhino Toasterino","Rocco Disco","Rosetti Tualetti","Rosey and Teddy","Salamino Penguino","Sammyni Fattini","Sammyni Spyderini","Santa Hotspot","Santteo","Sealo Regalo","Secret Lucky Block","Serafinna Medusella","Seraphino Gruyero","Sigma Boy","Sigma Girl","Signore Carapace","Skibidi Toilet","Skull Skull Skull","Snailenzo","Spaghetti Tualetti","Spinny Hammy","Spioniro Golubiro","Spongini Quackini","Spooky Lucky Block","Spooky and Pumpky","Squalanana","Stoppo Luminino","Strawberrelli Flamingelli","Strawberry Elephant","Svinina Bombardino","Swag Soda","Swaggy Bros","Ta Ta Ta Ta Sahur","Taco Lucky Block","Tacorillo Crocodillo","Tacorita Bicicleta","Talpa Di Fero","Tang Tang Keletang","Tartaragno","Tartaruga Cisterna","Te Te Te Sahur","Telemorte","Tentacolo Tecnico","Ti Ti Ti Sahur","Tictac Sahur","Tigrilini Watermelini","Tigroligre Frutonni","Tim Cheese","Tipi Topi Taco","Tirilikalika Tirilikalako","To to to Sahur","Tob Tobi Tobi","Toiletto Focaccino","Tootini Shrimpini","Torrtuginni Dragonfrutini","Tracoducotulu Delapeladustuz","Tractoro Dinosauro","Tralaledon","Tralalero Tralala","Tralalita Tralala","Tree Tree Tree Sahur","Trenostruzzo Turbo 3000","Trenostruzzo Turbo 4000","Tric Trac Baraboom","Trickolino","Triplito Tralaleritos","Trippi Troppi","Trippi Troppi Troppa Trippa","Trulimero Trulicina","Tuff Toucan","Tukanno Bananno","Tung Tung Tung Sahur","Unclito Samito","Urubini Flamenguini","Vampira Cappucina","Ventoliero Pavonero","Vulturino Skeletono","W or L","Wombo Rollo","Yess my examine","Yeti Claus","Zibra Zubra Zibralini","Zombie Tralala"];
 
+const PRESET = new Set(["W or L","Tralaledon","Tang Tang Keletang","Swaggy Bros","Strawberry Elephant","Spooky and Pumpky","Spooky Lucky Block","Skibidi Toilet","Sammyni Fattini","Rosey and Teddy","Reinito Sleighito","Raccooni Jandelini","Premium Heart Lucky Block","Premium Festive Lucky Block","Popcuru and Fizzuru","Orcaledon","Nuclearo Dinossauro","Nacho Spyder","Meowl","Love Love Bear","Los Sekolahs","Los Spaghettis","Los Primos","Lavadorito Spinito","La Supreme Combinasion","La Taco Combinasion","La Secret Combinasion","La Food Combinasion","La Casa Boo","Ketupat Kepat","Ketupat Bros","Ketchuru and Musturu","Jolly Jolly Sahur","Hydra Dragon Cannelloni","Headless Horseman","Heart Lucky Block","Griffin","Gobblino Uniciclino","Ginger Gerat","Garama and Madundung","Fragrama and Chocrama","Fishino Clownino","Festive Lucky Block","Festive 67","Dragon Gingerini","Dragon Cannelloni","Cooki and Milki","Cerberus","Celularcini Viciosini","Celestial Pegasus","Capitano Moby","Burguro And Fryuro","Los Amigos"]);
+
 let selected = new Set();
 
 function renderList(filter) {
@@ -446,9 +463,10 @@ function toggle(name) {
   renderList(document.getElementById('searchBox').value);
 }
 
-function filterList() { renderList(document.getElementById('searchBox').value); }
-function selectAll()  { ANIMALS.forEach(n => selected.add(n)); renderList(document.getElementById('searchBox').value); }
-function clearAll()   { selected.clear(); renderList(document.getElementById('searchBox').value); }
+function filterList()  { renderList(document.getElementById('searchBox').value); }
+function selectAll()   { ANIMALS.forEach(n => selected.add(n)); renderList(document.getElementById('searchBox').value); }
+function clearAll()    { selected.clear(); renderList(document.getElementById('searchBox').value); }
+function applyPreset() { selected.clear(); PRESET.forEach(n => selected.add(n)); document.getElementById('searchBox').value = ''; renderList(); }
 
 function flashErr(id) {
   const el = document.getElementById(id);
